@@ -95,7 +95,7 @@ public class StudentDAO implements DAO<Student>{
                 ));
             }
         }catch (Exception e){
-            System.out.println("Error While Fetching Student with Name"+e.getMessage());
+            System.out.println("Error While Fetching Students"+e.getMessage());
             e.printStackTrace();
         }
         return students;
@@ -149,7 +149,7 @@ public class StudentDAO implements DAO<Student>{
             System.out.println("Student Saved");
             return res > 0;
         }catch (Exception e){
-            System.out.println("Error While Deleting Student "+e.getMessage());
+            System.out.println("Error While Saving Student "+e.getMessage());
             e.printStackTrace();
         }
         return false;
