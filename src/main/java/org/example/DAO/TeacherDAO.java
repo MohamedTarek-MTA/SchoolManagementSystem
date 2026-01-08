@@ -15,7 +15,7 @@ public class TeacherDAO implements DAO<Teacher> {
     @Override
     public Optional<Teacher> findById(int id) {
         String sql = "Select * From Teachers Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,7 +38,7 @@ public class TeacherDAO implements DAO<Teacher> {
     public List<Teacher> findAll() {
         String sql = "Select * From Teachers";
         List<Teacher> teachers = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -58,7 +58,7 @@ public class TeacherDAO implements DAO<Teacher> {
     public List<Teacher> findByName(String name){
         String sql = "Select * From Teachers Where name like Concat('%',?,'%')";
         List<Teacher> teachers = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -78,7 +78,7 @@ public class TeacherDAO implements DAO<Teacher> {
     @Override
     public boolean update(Teacher teacher) {
         String sql = "Update Teachers Set name = ? , specialization = ?  Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,teacher.getName());
             preparedStatement.setString(2,teacher.getSpecialization());
@@ -96,7 +96,7 @@ public class TeacherDAO implements DAO<Teacher> {
     @Override
     public boolean delete(Teacher teacher) {
         String sql = "Delete From Teachers Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,teacher.getId());
             int res = preparedStatement.executeUpdate();
@@ -111,8 +111,8 @@ public class TeacherDAO implements DAO<Teacher> {
 
     @Override
     public boolean save(Teacher teacher) {
-        String sql = "Insert Into Students(name,specialization) Values (?,?)";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        String sql = "Insert Into Teachers(name,specialization) Values (?,?)";
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1,teacher.getName());
             preparedStatement.setString(2,teacher.getSpecialization());

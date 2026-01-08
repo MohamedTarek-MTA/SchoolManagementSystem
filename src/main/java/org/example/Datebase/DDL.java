@@ -6,11 +6,10 @@ import java.sql.Statement;
 
 public class DDL{
     public static void createDatabase(){
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getBootstrapDataSource().getConnection();
             Statement statement = connection.createStatement()){
             statement.executeUpdate("Create Database If Not Exists SchoolDB");
 
-            statement.executeUpdate("Use SchoolDB");
             System.out.println("Database is ready.");
         }catch(Exception e){
             System.out.println("Database not created"+e.getMessage());
@@ -18,9 +17,8 @@ public class DDL{
         }
     }
     public static void createTables(){
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
         Statement statement = connection.createStatement()){
-            statement.executeUpdate("Use SchoolDB");
             statement.executeUpdate("Create Table If Not Exists Students(id Int primary key auto_increment,`name` varchar(100) not null, email varchar(100) unique not null,age int not null)");
             statement.executeUpdate("Create Table If Not Exists Teachers(id Int primary key auto_increment,`name` varchar(100) not null, specialization varchar(100))");
             statement.executeUpdate("Create Table If Not Exists Subjects(id Int primary key auto_increment,`name` varchar(100) not null, teacher_id int, Foreign key (teacher_id) References Teachers(id) )");

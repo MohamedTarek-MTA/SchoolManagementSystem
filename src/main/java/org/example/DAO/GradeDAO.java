@@ -14,7 +14,7 @@ public class GradeDAO implements DAO<Grade>{
     @Override
     public Optional<Grade> findById(int id) {
         String sql = "Select * From Grades Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -34,7 +34,7 @@ public class GradeDAO implements DAO<Grade>{
     }
     public Optional<Grade> findByEnrollmentId(int enrollment_id) {
         String sql = "Select * From Grades Where enrollment_id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,enrollment_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -56,7 +56,7 @@ public class GradeDAO implements DAO<Grade>{
     public List<Grade> findAll() {
         String sql = "Select * From Grades";
         List<Grade> grades = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -76,7 +76,7 @@ public class GradeDAO implements DAO<Grade>{
     @Override
     public boolean update(Grade grade) {
         String sql = "Update Grades Set enrollment_id = ? , grade = ?  Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,grade.getEnrollmentId());
             preparedStatement.setString(2,grade.getGrade());
@@ -94,7 +94,7 @@ public class GradeDAO implements DAO<Grade>{
     @Override
     public boolean delete(Grade grade) {
         String sql = "Delete From Grades Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,grade.getId());
             int res = preparedStatement.executeUpdate();
@@ -110,7 +110,7 @@ public class GradeDAO implements DAO<Grade>{
     @Override
     public boolean save(Grade grade) {
         String sql = "Insert Into Grades(enrollment_id,grade) Values (?,?)";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1,grade.getEnrollmentId());
             preparedStatement.setString(2,grade.getGrade());

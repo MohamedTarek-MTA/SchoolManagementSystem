@@ -15,7 +15,7 @@ public class StudentDAO implements DAO<Student>{
     @Override
     public Optional<Student> findById(int id) {
         String sql = "Select * From Students Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,7 +38,7 @@ public class StudentDAO implements DAO<Student>{
     @Override
     public Optional<Student> findByEmail(String email) {
         String sql = "Select * From Students Where email = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,email);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -61,7 +61,7 @@ public class StudentDAO implements DAO<Student>{
     public List<Student> findByName(String name){
         String sql = "Select * From Students Where name like Concat('%',?,'%')";
         List<Student> students = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -83,7 +83,7 @@ public class StudentDAO implements DAO<Student>{
     public List<Student> findAll() {
         String sql = "Select * From Students";
         List<Student> students = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -104,7 +104,7 @@ public class StudentDAO implements DAO<Student>{
     @Override
     public boolean update(Student student) {
         String sql = "Update Students Set name = ? , email = ? , age = ? Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,student.getName());
             preparedStatement.setString(2,student.getEmail());
@@ -123,7 +123,7 @@ public class StudentDAO implements DAO<Student>{
     @Override
     public boolean delete(Student student) {
         String sql = "Delete From Students Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,student.getId());
             int res = preparedStatement.executeUpdate();
@@ -139,7 +139,7 @@ public class StudentDAO implements DAO<Student>{
     @Override
     public boolean save(Student student) {
         String sql = "Insert Into Students(name,email,age) Values (?,?,?)";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1,student.getName());
             preparedStatement.setString(2,student.getEmail());

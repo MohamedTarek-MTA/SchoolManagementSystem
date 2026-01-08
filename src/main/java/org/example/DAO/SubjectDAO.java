@@ -14,7 +14,7 @@ public class SubjectDAO implements DAO<Subject> {
     @Override
     public Optional<Subject> findById(int id) {
         String sql = "Select * From Subjects Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -35,7 +35,7 @@ public class SubjectDAO implements DAO<Subject> {
     public List<Subject> findByTeacherId(int teacher_id) {
         String sql = "Select * From Subjects Where teacher_id = ?";
         List<Subject> subjects = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,teacher_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -58,7 +58,7 @@ public class SubjectDAO implements DAO<Subject> {
     public List<Subject> findAll() {
         String sql = "Select * From Subjects";
         List<Subject> subjects = new ArrayList<>();
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -78,7 +78,7 @@ public class SubjectDAO implements DAO<Subject> {
     @Override
     public boolean update(Subject subject) {
         String sql = "Update Subjects Set name = ? , teacher_id = ?  Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,subject.getName());
             preparedStatement.setInt(2,subject.getTeacherId());
@@ -96,7 +96,7 @@ public class SubjectDAO implements DAO<Subject> {
     @Override
     public boolean delete(Subject subject) {
         String sql = "Delete From Subjects Where id = ?";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1,subject.getId());
             int res = preparedStatement.executeUpdate();
@@ -112,7 +112,7 @@ public class SubjectDAO implements DAO<Subject> {
     @Override
     public boolean save(Subject subject) {
         String sql = "Insert Into Subjects(name,teacher_id) Values (?,?)";
-        try(Connection connection = DBConnection.getDataSource().getConnection();
+        try(Connection connection = DBConnection.getAppDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1,subject.getName());
             preparedStatement.setInt(2,subject.getTeacherId());
