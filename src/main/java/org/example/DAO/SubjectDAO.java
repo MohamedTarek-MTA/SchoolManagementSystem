@@ -2,7 +2,6 @@ package org.example.DAO;
 
 import org.example.Datebase.DBConnection;
 import org.example.Model.Subject;
-import org.example.Model.Teacher;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,6 +31,27 @@ public class SubjectDAO implements DAO<Subject> {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+    public List<Subject> findByTeacherId(int teacher_id) {
+        String sql = "Select * From Subjects Where teacher_id = ?";
+        List<Subject> subjects = new ArrayList<>();
+        try(Connection connection = DBConnection.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,teacher_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+               subjects.add(new Subject(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("teacher_id")
+                ));
+
+            }
+        }catch (Exception e){
+            System.out.println("Error While Fetching Subject with Id"+e.getMessage());
+            e.printStackTrace();
+        }
+        return subjects;
     }
 
     @Override

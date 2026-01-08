@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.Datebase.DBConnection;
-import org.example.Model.Enrollment;
 import org.example.Model.Grade;
 
 import java.sql.Connection;
@@ -33,7 +32,26 @@ public class GradeDAO implements DAO<Grade>{
         }
         return Optional.empty();
     }
-
+    public Optional<Grade> findByEnrollmentId(int enrollment_id) {
+        String sql = "Select * From Grades Where enrollment_id = ?";
+        try(Connection connection = DBConnection.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,enrollment_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                Grade grade = new Grade(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("enrollment_id"),
+                        resultSet.getString("grade")
+                );
+                return Optional.of(grade);
+            }
+        }catch (Exception e){
+            System.out.println("Error While Fetching Grade with Id"+e.getMessage());
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
     @Override
     public List<Grade> findAll() {
         String sql = "Select * From Grades";

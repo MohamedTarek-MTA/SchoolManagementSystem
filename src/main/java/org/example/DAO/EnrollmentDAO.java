@@ -33,7 +33,46 @@ public class EnrollmentDAO implements DAO<Enrollment>{
         }
         return Optional.empty();
     }
-
+    public List<Enrollment> findByStudentId(int student_id) {
+        String sql = "Select * From Enrollments Where student_id = ?";
+        List<Enrollment> enrollments = new ArrayList<>();
+        try(Connection connection = DBConnection.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,student_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                enrollments.add( new Enrollment(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("student_id"),
+                        resultSet.getInt("subject_id")
+                ));
+            }
+        }catch (Exception e){
+            System.out.println("Error While Fetching Enrollment with Id"+e.getMessage());
+            e.printStackTrace();
+        }
+        return enrollments;
+    }
+    public List<Enrollment> findBySubjectId(int subject_id) {
+        String sql = "Select * From Enrollments Where subject_id = ?";
+        List<Enrollment> enrollments = new ArrayList<>();
+        try(Connection connection = DBConnection.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,subject_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                enrollments.add( new Enrollment(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("student_id"),
+                        resultSet.getInt("subject_id")
+                ));
+            }
+        }catch (Exception e){
+            System.out.println("Error While Fetching Enrollment with Id"+e.getMessage());
+            e.printStackTrace();
+        }
+        return enrollments;
+    }
     @Override
     public List<Enrollment> findAll() {
         String sql = "Select * From Enrollments";
